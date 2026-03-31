@@ -39,6 +39,7 @@ class EmailServiceType(str, Enum):
     FREEMAIL = "freemail"
     IMAP_MAIL = "imap_mail"
     CLOUD_MAIL = "cloud_mail"
+    LUCK_MAIL = "luck_mail"
 
 
 # ============================================================================
@@ -149,6 +150,22 @@ EMAIL_SERVICE_DEFAULTS = {
         "domain": "",
         "timeout": 30,
         "max_retries": 3,
+    },
+    "luck_mail": {
+        "base_url": "",
+        "api_key": "",
+        "token": "",
+        "email_address": "",
+        "project_id": None,
+        "project_code": "",
+        "project_name": "",
+        "email_type": "",
+        "domain": "",
+        "variant_mode": "",
+        "tag_name": "",
+        "mark_tag_name": "",
+        "timeout": 300,
+        "poll_interval": 3.0,
     }
 }
 

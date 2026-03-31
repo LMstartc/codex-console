@@ -355,7 +355,9 @@ const statusMap = {
         temp_mail: 'Temp-Mail（自部署）',
         duck_mail: 'DuckMail',
         freemail: 'Freemail',
-        imap_mail: 'IMAP 邮箱'
+        cloud_mail: 'CloudMail',
+        imap_mail: 'IMAP 邮箱',
+        luck_mail: 'LuckMail'
     }
 };
 

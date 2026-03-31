@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(.venvScriptspython.exe -c \"from src.services import LuckMailService; print\\(''LuckMail service loaded OK''\\)\")",
+      "Bash(\".venv/Scripts/python.exe\" webui.py)",
+      "Bash(\".venv/Scripts/python.exe\" -c \":*)",
+      "WebFetch(domain:minimax-algeng-chat-tts.oss-cn-wulanchabu.aliyuncs.com)",
+      "Bash(docker-compose build:*)",
+      "Bash(docker compose:*)"
+    ]
+  }
+}

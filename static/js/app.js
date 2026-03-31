@@ -27,7 +27,8 @@ let availableServices = {
     temp_mail: { available: false, services: [] },
     duck_mail: { available: false, services: [] },
     freemail: { available: false, services: [] },
-    cloud_mail: { available: false, services: [] }
+    cloud_mail: { available: false, services: [] },
+    luck_mail: { available: false, services: [] }
 };
 
 // WebSocket 相关变量
@@ -401,6 +402,28 @@ function updateEmailServiceOptions() {
 
         select.appendChild(optgroup);
     }
+
+    // LuckMail
+    if (availableServices.luck_mail && availableServices.luck_mail.available) {
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = `🍀 LuckMail (${availableServices.luck_mail.count} 个服务)`;
+
+        availableServices.luck_mail.services.forEach(service => {
+            const option = document.createElement('option');
+            option.value = `luck_mail:${service.id}`;
+            const suffix = service.email_address
+                ? ` (${service.email_address})`
+                : (service.project_code
+                    ? ` [${service.project_code}]`
+                    : (service.tag_name ? ` [${service.tag_name}]` : ''));
+            option.textContent = service.name + suffix;
+            option.dataset.type = 'luck_mail';
+            option.dataset.serviceId = service.id;
+            optgroup.appendChild(option);
+        });
+
+        select.appendChild(optgroup);
+    }
 }
 
 // 处理邮箱服务切换
@@ -455,6 +478,11 @@ function handleServiceChange(e) {
         const service = availableServices.cloud_mail.services.find(s => s.id == id);
         if (service) {
             addLog('info', `[系统] 已选择 CloudMail 服务: ${service.name}`);
+        }
+    } else if (type === 'luck_mail') {
+        const service = availableServices.luck_mail.services.find(s => s.id == id);
+        if (service) {
+            addLog('info', `[系统] 已选择 LuckMail 服务: ${service.name}`);
         }
     }
 }

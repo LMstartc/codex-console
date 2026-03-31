@@ -40,7 +40,8 @@ RUN pip install --no-cache-dir --upgrade pip \
 # 复制项目代码
 COPY . .
 COPY scripts/docker/start-webui.sh /app/scripts/docker/start-webui.sh
-RUN chmod +x /app/scripts/docker/start-webui.sh
+RUN chmod +x /app/scripts/docker/start-webui.sh \
+    && pip install --no-cache-dir /app/LuckMailSdk-Python
 
 # 暴露端口
 EXPOSE 1455

@@ -219,6 +219,7 @@
                             <option value="duckmail">DuckMail（DuckMail API）</option>
                             <option value="freemail">Freemail（自部署 Cloudflare Worker）</option>
                             <option value="cloudmail">CloudMail（Cloudflare Workers 邮箱）</option>
+                            <option value="luckmail">LuckMail（新购邮箱）</option>
                             <option value="imap">标准 IMAP（Gmail/QQ/163等）</option>
                         </select>
                     </div>
@@ -333,6 +334,69 @@
                             <label for="custom-cm-domain">邮箱域名</label>
                             <input type="text" id="custom-cm-domain" name="cm_domain" placeholder="example.com 或 domain1.com,domain2.com">
                             <small style="color: var(--text-muted);">支持多个域名，用英文逗号分隔</small>
+                        </div>
+                    </div>
+                    <!-- LuckMail 字段 -->
+                    <div id="add-luckmail-fields" style="display:none;">
+                        <div class="form-group">
+                            <label for="custom-lm-base-url">平台地址</label>
+                            <input type="text" id="custom-lm-base-url" name="lm_base_url" placeholder="https://mails.luckyous.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-lm-api-key">API Key</label>
+                            <input type="password" id="custom-lm-api-key" name="lm_api_key" placeholder="LuckMail API Key">
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-lm-token">固定 Token（可选）</label>
+                            <input type="password" id="custom-lm-token" name="lm_token" placeholder="tok_abc123def456">
+                            <small style="color: var(--text-muted);">单邮箱模式：直接填写已购邮箱 token</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-lm-email-address">邮箱地址（可选）</label>
+                            <input type="email" id="custom-lm-email-address" name="lm_email_address" placeholder="user@outlook.com">
+                            <small style="color: var(--text-muted);">固定 token 模式建议一起填写，便于界面展示</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-lm-project-code">项目编码（可选）</label>
+                            <input type="text" id="custom-lm-project-code" name="lm_project_code" placeholder="例如：openai">
+                            <small style="color: var(--text-muted);">不填 token / 邮箱地址时，将按项目实时购买一个新邮箱</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-lm-project-name">项目名称（可选）</label>
+                            <input type="text" id="custom-lm-project-name" name="lm_project_name" placeholder="例如：OpenAI">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="custom-lm-email-type">邮箱类型（可选）</label>
+                                <input type="text" id="custom-lm-email-type" name="lm_email_type" placeholder="例如：ms_graph">
+                            </div>
+                            <div class="form-group">
+                                <label for="custom-lm-domain">指定域名（可选）</label>
+                                <input type="text" id="custom-lm-domain" name="lm_domain" placeholder="例如：outlook.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-lm-variant-mode">谷歌变种模式（可选）</label>
+                            <input type="text" id="custom-lm-variant-mode" name="lm_variant_mode" placeholder="dot / plus / mixed / all">
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-lm-tag-name">购买后标签（可选）</label>
+                            <input type="text" id="custom-lm-tag-name" name="lm_tag_name" placeholder="例如：主力号">
+                            <small style="color: var(--text-muted);">购买成功后可自动给邮箱打标签，便于后续整理</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-lm-mark-tag-name">领取后标记（可选）</label>
+                            <input type="text" id="custom-lm-mark-tag-name" name="lm_mark_tag_name" placeholder="例如：已使用">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="custom-lm-timeout">超时时间(秒)</label>
+                                <input type="number" id="custom-lm-timeout" name="lm_timeout" value="300" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="custom-lm-poll-interval">轮询间隔(秒)</label>
+                                <input type="number" id="custom-lm-poll-interval" name="lm_poll_interval" value="3" min="0.5" step="0.5">
+                            </div>
                         </div>
                     </div>
                     <div class="form-row">
@@ -492,6 +556,67 @@
                             <label for="edit-cm-domain">邮箱域名</label>
                             <input type="text" id="edit-cm-domain" name="cm_domain" placeholder="example.com">
                             <small style="color: var(--text-muted);">支持多个域名，用英文逗号分隔</small>
+                        </div>
+                    </div>
+                    <!-- LuckMail 字段 -->
+                    <div id="edit-luckmail-fields" style="display:none;">
+                        <div class="form-group">
+                            <label for="edit-lm-base-url">平台地址</label>
+                            <input type="text" id="edit-lm-base-url" name="lm_base_url" placeholder="https://mails.luckyous.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-lm-api-key">API Key</label>
+                            <input type="password" id="edit-lm-api-key" name="lm_api_key" placeholder="留空则不修改">
+                            <small style="color: var(--text-muted);">留空则保持原值不变</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-lm-token">固定 Token（可选）</label>
+                            <input type="password" id="edit-lm-token" name="lm_token" placeholder="留空则不修改">
+                            <small style="color: var(--text-muted);">留空则保持原 token，不填时可改用项目实时购买</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-lm-email-address">邮箱地址（可选）</label>
+                            <input type="email" id="edit-lm-email-address" name="lm_email_address" placeholder="user@outlook.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-lm-project-code">项目编码（可选）</label>
+                            <input type="text" id="edit-lm-project-code" name="lm_project_code" placeholder="例如：openai">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-lm-project-name">项目名称（可选）</label>
+                            <input type="text" id="edit-lm-project-name" name="lm_project_name" placeholder="例如：OpenAI">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-lm-email-type">邮箱类型（可选）</label>
+                                <input type="text" id="edit-lm-email-type" name="lm_email_type" placeholder="例如：ms_graph">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-lm-domain">指定域名（可选）</label>
+                                <input type="text" id="edit-lm-domain" name="lm_domain" placeholder="例如：outlook.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-lm-variant-mode">谷歌变种模式（可选）</label>
+                            <input type="text" id="edit-lm-variant-mode" name="lm_variant_mode" placeholder="dot / plus / mixed / all">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-lm-tag-name">购买后标签（可选）</label>
+                            <input type="text" id="edit-lm-tag-name" name="lm_tag_name" placeholder="例如：主力号">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-lm-mark-tag-name">领取后标记（可选）</label>
+                            <input type="text" id="edit-lm-mark-tag-name" name="lm_mark_tag_name" placeholder="例如：已使用">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-lm-timeout">超时时间(秒)</label>
+                                <input type="number" id="edit-lm-timeout" name="lm_timeout" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-lm-poll-interval">轮询间隔(秒)</label>
+                                <input type="number" id="edit-lm-poll-interval" name="lm_poll_interval" min="0.5" step="0.5">
+                            </div>
                         </div>
                     </div>
                     <div class="form-row">

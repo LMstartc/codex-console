@@ -91,6 +91,7 @@ class OutlookBatchImportResponse(BaseModel):
 SENSITIVE_FIELDS = {
     'password',
     'api_key',
+    'token',
     'refresh_token',
     'access_token',
     'admin_token',
@@ -180,6 +181,7 @@ async def get_email_services_stats():
             'freemail_count': 0,
             'imap_mail_count': 0,
             'cloudmail_count': 0,
+            'luckmail_count': 0,
             'tempmail_available': True,  # 临时邮箱始终可用
             'enabled_count': enabled_count
         }
@@ -197,8 +199,10 @@ async def get_email_services_stats():
                 stats['freemail_count'] = count
             elif service_type == 'imap_mail':
                 stats['imap_mail_count'] = count
-            elif service_type == 'cloudmail':
+            elif service_type == 'cloud_mail':
                 stats['cloudmail_count'] = count
+            elif service_type == 'luck_mail':
+                stats['luckmail_count'] = count
 
         return stats
 
@@ -281,6 +285,26 @@ async def get_service_types():
                     {"name": "use_ssl", "label": "使用 SSL", "required": False, "default": True},
                     {"name": "email", "label": "邮箱地址", "required": True},
                     {"name": "password", "label": "密码/授权码", "required": True, "secret": True},
+                ]
+            },
+            {
+                "value": "luck_mail",
+                "label": "LuckMail",
+                "description": "LuckMail 邮箱服务，支持固定 token 或按项目实时购买新邮箱",
+                "config_fields": [
+                    {"name": "base_url", "label": "平台地址", "required": True, "placeholder": "https://mails.luckyous.com"},
+                    {"name": "api_key", "label": "API Key", "required": True, "secret": True},
+                    {"name": "token", "label": "固定 Token", "required": False, "secret": True},
+                    {"name": "email_address", "label": "邮箱地址", "required": False, "placeholder": "如 user@outlook.com"},
+                    {"name": "project_code", "label": "项目编码", "required": False, "placeholder": "如 openai"},
+                    {"name": "project_name", "label": "项目名称", "required": False, "placeholder": "如 OpenAI"},
+                    {"name": "email_type", "label": "邮箱类型", "required": False, "placeholder": "如 ms_graph"},
+                    {"name": "domain", "label": "指定域名", "required": False, "placeholder": "如 outlook.com"},
+                    {"name": "variant_mode", "label": "谷歌变种模式", "required": False, "placeholder": "dot / plus / mixed / all"},
+                    {"name": "tag_name", "label": "购买后标签", "required": False, "placeholder": "如 主力号"},
+                    {"name": "mark_tag_name", "label": "领取后标记", "required": False, "placeholder": "如 已使用"},
+                    {"name": "timeout", "label": "超时时间(秒)", "required": False, "default": 300},
+                    {"name": "poll_interval", "label": "轮询间隔(秒)", "required": False, "default": 3.0},
                 ]
             }
         ]
